@@ -93,8 +93,8 @@ class BlogController extends Controller
 
     /**
      * ブログの更新処理
-     * @param  Blog $blog
-     * BlogRequest $request 
+     * @param Blog $blog
+     * @param BlogRequest $request
      * @return void
      */
     public function update(Blog $blog, BlogRequest $request)

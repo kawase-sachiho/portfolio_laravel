@@ -92,5 +92,28 @@
                 </p>
             </div>
         </div>
+        <div class="row justify-content-center">
+            <div style="width: 50%">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        var barCtx = document.getElementById('barChart');
+        var barConfig = {
+            type: 'bar',
+            data: {
+                labels: @json($labels),
+                datasets: [{
+                    label: '学習時間',
+                    data: @json($data),
+                    backgroundColor:
+                        'springgreen',
+                    borderWidth: 1
+            }]
+          },
+        };
+        let barChart = new Chart(barCtx, barConfig);
+    </script>
     @endsection

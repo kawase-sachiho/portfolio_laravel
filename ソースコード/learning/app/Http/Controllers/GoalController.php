@@ -17,7 +17,8 @@ class GoalController extends Controller
      * ユーザーIDのチェックを行う
      * @param LongSchedule $long_goal
      * @return void 
-     * @throws HttpException  */
+     * @throws HttpException  
+     */
     private function checkLongTermGoalUserID(LongSchedule $long_goal, int $status = 404)
     {
         //ログイン中のIDと長期目標のユーザーIDが正しいかをチェックする
@@ -25,11 +26,14 @@ class GoalController extends Controller
             abort($status);
         }
     }
-
-    /**  ユーザーIDのチェックを行う
+    /**
+     * ユーザーIDのチェックを行う
+     *
      * @param ShortSchedule $short_goal
-     * @return void 
-     * @throws HttpException  */
+     * @param integer $status
+     * @return void
+     * @throws HttpException
+     */
     private function checkShortTermGoalUserID(ShortSchedule $short_goal, int $status = 404)
     {
         //ログイン中のIDと短期目標のユーザーIDが正しいかをチェックする
@@ -37,8 +41,8 @@ class GoalController extends Controller
             abort($status);
         }
     }
-
-    /**目標一覧画面表示
+    /**
+     * 目標一覧画面表示
      * @return view
      */
     public function index()
@@ -64,7 +68,6 @@ class GoalController extends Controller
         }
         return view('goals.index', compact('long_goals'));
     }
-
     /**
      * 長期目標の追加画面表示
      * @return view
@@ -73,11 +76,11 @@ class GoalController extends Controller
     {
         return view('goals.long.create');
     }
-
     /** 
      * 長期目標の追加処理
      * @param LongGoalRequest $request 
-     * @return void   */
+     * @return void  
+     */
     public function storeLongGoal(LongGoalRequest $request)
     {
         $long_goal = new LongSchedule();
@@ -87,7 +90,6 @@ class GoalController extends Controller
         $long_goal->save();
         return redirect(route('goals.index'));
     }
-
     /**
      * 長期目標の修正画面表示
      * @param LongSchedule $long_goal 
@@ -98,11 +100,10 @@ class GoalController extends Controller
         $this->checkLongTermGoalUserID($long_goal);
         return view('goals.long.edit', compact('long_goal'));
     }
-
     /**
      * 長期目標の更新処理
      * @param LongSchedule $long_goal
-     * LongGoalRequest $request 
+     * @param LongGoalRequest $request
      * @return void
      */
     public function updateLongGoal(LongSchedule $long_goal, LongGoalRequest $request)
@@ -115,7 +116,7 @@ class GoalController extends Controller
     /** 長期目標の削除処理
      * @param Request $request 
      * @return void
-    */
+     */
     public function destroyLongGoal(Request $request)
     {
         //長期目標に付随する短期目標が存在する長期目標は削除せずにリダイレクトする
@@ -166,19 +167,18 @@ class GoalController extends Controller
         $long_goals = LongSchedule::where('user_id', Auth()->id())->orderby('expire_date', 'asc')->get();
         return view('goals.short.edit', compact('short_goal', 'long_goals'));
     }
-
     /**
      * 短期目標の更新処理
      * @param ShortSchedule $short_goal
-     * ShortGoalRequest $request 
-     * @return void   */
+     * @param ShortGoalRequest $request
+     * @return void
+     */
     public function updateShortGoal(ShortSchedule $short_goal, ShortGoalRequest $request)
     {
         $this->checkShortTermGoalUserID($short_goal);
         $short_goal->fill($request->all())->save();
         return redirect(route('goals.index'));
     }
-
     /**
      * 短期目標の削除処理
      * @param Request $request 

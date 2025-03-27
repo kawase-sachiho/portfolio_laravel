@@ -14,7 +14,8 @@ class NoteController extends Controller
     /**
      * ユーザーIDのチェックを行う
      * @param Note $note
-     * @return void 
+     * @param integer $status
+     * @return void
      * @throws HttpException
      */
     private function checkUserID(Note $note, int $status = 404)
@@ -25,9 +26,9 @@ class NoteController extends Controller
             abort($status);
         }
     }
-
     /**
      * ノート一覧画面表示
+     * @param Request $request
      * @return view
      */
     public function index(Request $request)
@@ -60,7 +61,6 @@ class NoteController extends Controller
             return view('notes.index', compact('notes', 'categories'));
         }
     }
-
     /**
      * ノートの追加画面表示
      * @param Note $note
@@ -71,7 +71,6 @@ class NoteController extends Controller
         $categories = Category::where('user_id', Auth::id())->orderBy('category_name', 'asc')->get();
         return view('notes.create', compact('note', 'categories'));
     }
-
     /**
      * ノートの追加処理
      * @param NoteRequest $request 
@@ -90,7 +89,6 @@ class NoteController extends Controller
         $note->save();
         return redirect()->route('notes.show', $note);
     }
-
     /** 
      * ノートの詳細確認画面表示
      * @param Note $note 
@@ -106,7 +104,6 @@ class NoteController extends Controller
         $note->content = preg_replace('/(\*{3})(.*)(\*{3})/', '<strong>\\2</strong>', $note->content);
         return view('notes.show', compact('note'));
     }
-
     /**
      * ノートの修正画面表示
      * @param Note $note 
@@ -118,12 +115,11 @@ class NoteController extends Controller
         $categories = Category::where('user_id', Auth::id())->orderBy('category_name', 'asc')->get();
         return view('notes.edit', compact('note', 'categories'));
     }
-
-    /** 
+    /**
      * ノートの更新処理
-     * @param 
-     * NoteRequest $request
-     * Note $note
+     *
+     * @param NoteRequest $request
+     * @param Note $note
      * @return void
      */
     public function update(NoteRequest $request, Note $note)
@@ -147,7 +143,6 @@ class NoteController extends Controller
         $note->save();
         return redirect()->route('notes.show', $note);
     }
-
     /**
      * ノートの削除処理
      * @param Request $request

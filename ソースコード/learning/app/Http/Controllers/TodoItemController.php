@@ -10,12 +10,13 @@ use Carbon\Carbon;
 
 class TodoItemController extends Controller
 {
-   /**
-    * ユーザーIDのチェックを行う
-    * @param TodoItem $todo_item 
-    * @return void 
-    * @throws HttpException
-    */
+    /**
+     * ユーザーIDのチェックを行う 
+     * @param TodoItem $todo_item
+     * @param integer $status
+     * @return void
+     * @throws HttpException
+     */
     private function checkUserID(TodoItem $todo_item, int $status = 404)
     {
         // ログインユーザーIDとタスクのユーザーIDが異なるとき 
@@ -24,7 +25,6 @@ class TodoItemController extends Controller
             abort($status);
         }
     }
-
     /**
      * タスクリストの表示
      * @return view
@@ -52,7 +52,6 @@ class TodoItemController extends Controller
         }
         return view('todo_items.index', compact('todo_items'));
     }
-
     /**
      * タスク追加画面表示
      * @return view
@@ -61,7 +60,6 @@ class TodoItemController extends Controller
     {
         return view('todo_items.create');
     }
-
     /**
      * タスクの追加処理
      * @param TodoItemRequest $request 
@@ -76,7 +74,6 @@ class TodoItemController extends Controller
         $todo_item->save();
         return redirect(route('todo_items.index'));
     }
-
     /**
      * タスクの修正画面表示
      * @param TodoItem $todo_item 
@@ -87,7 +84,6 @@ class TodoItemController extends Controller
         $this->checkUserID($todo_item);
         return view('todo_items.edit', compact('todo_item'));
     }
-
     /**
      * タスクの更新処理
      * @param
@@ -101,7 +97,6 @@ class TodoItemController extends Controller
         $todo_item->fill($request->all())->save();
         return redirect(route('todo_items.index'));
     }
-
     /**
      * タスクの削除処理
      * @param Request $request 

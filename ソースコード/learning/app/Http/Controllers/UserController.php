@@ -19,12 +19,10 @@ class UserController extends Controller
         $user = User::where('id', Auth::id())->first();
         return view('users.edit', compact('user'));
     }
-
-    /** 
-     * ユーザー情報を更新処理
-     * @param 
-     * User $user 
-     * UserRequest $request
+    /**
+     * ユーザー情報の更新処理
+     * @param UserRequest $request
+     * @param User $user
      * @return void
      */
     public function updateUser(UserRequest $request, User $user)

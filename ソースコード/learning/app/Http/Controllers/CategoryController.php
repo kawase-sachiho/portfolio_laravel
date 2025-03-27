@@ -10,10 +10,13 @@ use App\Models\Note;
 
 class CategoryController extends Controller
 {
-    /* ユーザーIDのチェックを行う
-    @param Category $category 
-    @return void 
-    @throws HttpException  */
+    /**
+     * ユーザーIDのチェックを行う
+     * @param Category $category
+     * @param integer $status
+     * @return void
+     * @throws HttpException
+     */
     private function checkUserID(Category $category, int $status = 404)
     {
         // ログインユーザーIDとタスクのユーザーIDが異なるとき 
@@ -31,19 +34,18 @@ class CategoryController extends Controller
         $categories = Category::where('user_id', Auth::id())->orderBy('learning_date', 'desc')->paginate(5);
         return view('categories.index', compact('categories'));
     }
-
-    /** カテゴリーの追加画面表示
-     * param Category $category 
+    /**
+     * カテゴリーの追加画面表示
+     * @param Category $category
      * @return view
      */
     public function create(Category $category)
     {
         return view('categories.create', compact('category'));
     }
-
     /**
      * カテゴリーの追加処理
-     * @param CategoryRequest $request 
+     * @param CategoryRequest $request
      * @return void
      */
     public function store(CategoryRequest $request)
@@ -54,7 +56,6 @@ class CategoryController extends Controller
         $category->save();
         return redirect(route('categories.index'));
     }
-
     /**
      * カテゴリーの修正画面表示
      * @param Category $category  
@@ -65,10 +66,10 @@ class CategoryController extends Controller
         $this->checkUserID($category);
         return view('categories.edit', compact('category'));
     }
-
-    /** カテゴリーの更新処理
+    /**
+     *  カテゴリーの更新処理
      * @param Category $category
-     * CategoryRequest $request 
+     * @param CategoryRequest $request
      * @return void
      */
     public function update(Category $category, CategoryRequest $request)
@@ -77,7 +78,6 @@ class CategoryController extends Controller
         $category->fill($request->all())->save();
         return redirect(route('categories.index'));
     }
-
     /**
      * カテゴリーの削除処理
      * @param Request $request 
