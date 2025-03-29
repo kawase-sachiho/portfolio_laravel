@@ -22,7 +22,6 @@ class NoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'title' => 'max:100|nullable',
             'content' => 'required',
             'registration_date' => 'required|date',

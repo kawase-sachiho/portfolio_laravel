@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\TodoItem;
 use App\Models\Blog;
@@ -10,8 +8,6 @@ use App\Models\ShortSchedule;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
 class StudyController extends Controller
 {
     /**
@@ -49,7 +45,7 @@ class StudyController extends Controller
             }
             $calendarDays[] = ['date' => $calendarYm->copy()->addDays($i), 'show' => $show, 'status' => $status];
         }
-        //月末の日付が土曜日ではないときの、追加する翌月カレンダーの日付。
+        //月末の日付が土曜日ではないときの、追加する翌月カレンダーの日付
         if ($calendarYm->copy()->endOfMonth()->dayOfWeek != 6) {
             for ($i = $calendarYm->copy()->endOfMonth()->dayOfWeek + 1; $i < 7; $i++) {
                 $calendarDays[] = ['date' => $calendarYm->copy()->addDays($i), 'show' => false, 'status' => false];
@@ -57,7 +53,6 @@ class StudyController extends Controller
         }
         /* 学習時間のグラフに関するデータの取得 */
         //半年分の月データを入れる
-
         $month_past = Carbon::now()->subMonths(5)->format('Y-m-d');
         $month_now = Carbon::now()->format('Y-m-d');
         $period = CarbonPeriod::create($month_past, "1 month", $month_now);

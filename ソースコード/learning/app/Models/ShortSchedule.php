@@ -10,10 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ShortSchedule extends Model
 {
     use HasFactory;
-
     use SoftDeletes;
+    
     protected $dates = ['deleted_at'];
-
 
     protected $guarded = [
         'id',
@@ -25,5 +24,4 @@ class ShortSchedule extends Model
         'expire_date'=>'date',
         'finished_date'=>'date',
         ]; 
-
 }

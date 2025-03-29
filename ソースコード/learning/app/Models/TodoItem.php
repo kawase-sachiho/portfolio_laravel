@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TodoItem extends Model
 {
     use HasFactory;
-
     use SoftDeletes;
+
     protected $dates = ['deleted_at'];
 
     protected $guarded = [
@@ -18,10 +18,9 @@ class TodoItem extends Model
         'user_id',
     ];
 
-    protected $casts = [ 
-        'registration_date' => 'date', 
-        'expire_date'=>'date',
-        'finished_date'=>'date',
-        ]; 
-
+    protected $casts = [
+        'registration_date' => 'date',
+        'expire_date' => 'date',
+        'finished_date' => 'date',
+    ];
 }

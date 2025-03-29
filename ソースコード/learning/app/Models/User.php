@@ -13,10 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
     use SoftDeletes;
-    protected $dates = ['deleted_at'];
 
+    protected $dates = ['deleted_at'];
 
     protected $guarded = [
         'id',
@@ -53,6 +52,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    //全てのテーブルと1対多の関係で結びつく
     public function blog()
     {
         return $this->hasMany(\App\Models\Blog::class);
@@ -65,7 +65,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Models\LongSchedule::class);
     }
-
     public function note()
     {
         return $this->hasMany(\App\Models\Note::class);

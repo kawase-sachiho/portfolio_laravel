@@ -39,5 +39,4 @@ class UserRequest extends FormRequest
             'password.min'=>'パスワードは8文字以上で入力してください',
         ];
     }
-
 }

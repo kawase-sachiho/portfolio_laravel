@@ -28,7 +28,7 @@ Route::resource('blogs', App\Http\Controllers\BlogController::class)->middleware
 //TODO項目の一覧・登録・表示・更新・削除画面
 Route::resource('todo_items', App\Http\Controllers\TodoItemController::class)->middleware('auth');
 
-//ノートのの一覧・登録・表示・更新・削除画面
+//ノートの一覧・登録・表示・更新・削除画面
 Route::resource('notes', App\Http\Controllers\NoteController::class)->middleware('auth');
 
 //カテゴリーの一覧・登録・表示・更新・削除画面

@@ -14,7 +14,6 @@ class Blog extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-
     /** @var 値を反映したくないフィールド */ 
     protected $guarded = [ 
     'id', 
