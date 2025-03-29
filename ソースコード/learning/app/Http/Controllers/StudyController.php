@@ -53,10 +53,10 @@ class StudyController extends Controller
         }
         /* 学習時間のグラフに関するデータの取得 */
         //半年分の月データを入れる
-        $month_past = Carbon::now()->subMonths(5)->format('Y-m-d');
-        $month_now = Carbon::now()->format('Y-m-d');
+        $month_past = Carbon::now()->startOfMonth()->subMonths(5)->format('Y-m-d');
+        $month_now = Carbon::now()->startOfMonth()->format('Y-m-d');
         $period = CarbonPeriod::create($month_past, "1 month", $month_now);
-
+        //1か月ごとに過去の月を配列に入れていく
         foreach ($period as $key => $value) {
             $past_months[] = $value->format('m');
         }
