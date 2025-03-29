@@ -104,10 +104,10 @@
         var barConfig = {
             type: 'bar',
             data: {
-                labels: @json($labels),
+                labels: @js($labels),
                 datasets: [{
                     label: '学習時間',
-                    data: @json($data),
+                    data: @js($data),
                     backgroundColor:
                         'springgreen',
                     borderWidth: 1
