@@ -93,7 +93,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div style="width: 50%">
+            <div style="width:75%;">
                 <canvas id="barChart"></canvas>
             </div>
         </div>

@@ -3,14 +3,15 @@
 <div class="m-3 p-3">
     <h3 class="title-text mb-3">NOTE LIST</h3>
     <!--カテゴリー、またはキーワード検索があった場合に表示-->
-    <h3 class="title-text mb-3">{{!empty($select_category->category_name) ?
-    " CATEGORY : ".$select_category->category_name : ''}}
-        {{!empty($keywords) ?
+    <div class="row mb-3">
+    <div class="col-auto title-text">{{!empty($select_category->category_name) ?
+    " CATEGORY : ".$select_category->category_name : ''}}</div>
+    <div class="lh-1 d-lg-none"><br></div>                
+       <div class="col-auto title-text"> {{!empty($keywords) ?
     " KEYWORD : ".$keywords : ''}}
-    </h3>
-    <div class="row">
-        <form action="" method="get" class="col-auto">
-            <div class="row mb-3">
+       </div>
+       </div>   
+        <form action="" method="get" class="row mb-3">
                 <div class="col-auto">
                     <label for="category_id" class="col-auto sub-title-text">CATEGORY</label>
                 </div>
@@ -20,32 +21,29 @@
                 @else
                 <!--カテゴリーが登録されていればセレクトボックスボックスを表示する-->
                 <div class="col-auto">
-                    <select name="category_id" id="category_id" class="form-control input-md" type="select">
-                        @foreach($categories as $category)
-                        <option value="{{$category->id}}">{{$category->category_name}}</option>
+                    <select name="category_id" id="category_id" class="col-auto form-control input-md" type="select">
+                    <option value="">カテゴリーを選択…</option>    
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}" @if(isset($select_category) && $category->id == $select_category->id) selected @endif>{{$category->category_name}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-auto">
-                    <input type="submit" class="btn btn-lg btn-primary form-control" value="検索">
-                </div>
                 @endif
-            </div>
-        </form>
-        <form action="" class="col-auto">
-            <div class="row mb-3">
+                <div class="lh-1 d-lg-none"><br></div>
                 <div class="col-auto sub-title-text">SEARCH</div>
-                <div class="col-auto">
-                    <input type="text" name="keyword" placeholder="キーワードを入力…" class="form-control">
+                
+                <div class="lh-1 col-auto">
+                    <input type="text" name="keyword" placeholder="キーワードを入力…" class="form-control" value="@if(isset($keywords)){{$keywords}}@endif">
                 </div>
+                <div class="lh-1 d-lg-none"><br></div>
                 <div class="col-auto">
                     <input type="submit" class="btn btn-lg btn-primary form-control" value="検索">
                 </div>
+                <div class="lh-1 d-lg-none"><br></div>
                 <div class="col-auto"><a href="{{ route('notes.index') }}" class="btn btn-lg btn-warning">検索条件をリセットする</a>
                 </div>
-            </div>
+
         </form>
-    </div>
     <div class="text-end mb-3">
         <a href="{{route('categories.index')}}" class="btn btn-lg btn-success">カテゴリーの管理</a>
     </div>

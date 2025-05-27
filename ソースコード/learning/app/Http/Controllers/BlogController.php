@@ -72,13 +72,22 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
+        if(isset($future_blog)){
+            $blog=$future_blog;
+        }
+        if(isset($past_blog)){
+            $blog=$past_blog;
+        }
         $this->checkUserID($blog);
         //エスケープ処理をしてから、特定の記号をhtmlタグへ変換し、表示画面で反映させる
         $str = htmlspecialchars($blog->content);
         $blog->content = preg_replace('/(@{3})(.*)(@{3})/', '<span style="color:red;">\\2</span>', $str);
         $blog->content = preg_replace('/(\-{3})(.*)(\-{3})/', '<span style="text-decoration:underline;">\\2</span>', $blog->content);
         $blog->content = preg_replace('/(\*{3})(.*)(\*{3})/', '<strong>\\2</strong>', $blog->content);
-        return view('blogs.show', compact('blog'));
+        $learning_date = $blog->learning_date;
+        $past_blog=Blog::whereDate('learning_date','<', $learning_date)->where('user_id', Auth()->id())->orderBy('learning_date', 'desc')->first();
+        $future_blog=Blog::whereDate('learning_date','>', $learning_date)->where('user_id', Auth()->id())->orderBy('learning_date', 'asc')->first();
+        return view('blogs.show', compact('blog','past_blog','future_blog'));
     }
 
     /** ブログの修正画面表示

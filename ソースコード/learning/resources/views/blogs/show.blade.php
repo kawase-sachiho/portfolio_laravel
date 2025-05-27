@@ -24,6 +24,15 @@
             <td class="col-md-10 main-text">{{$blog->comment}}</td>
         </tr>
     </table>
+    
+    <div class="row justify-content-center">
+    @if(!is_null($past_blog))
+    <div class="col-auto"><a href="{{ route('blogs.show', $past_blog) }}" class="btn btn-lg btn-secondary">&lt; prev</a></div>
+    @endif
+    @if(!is_null($future_blog))
+    <div class="col-auto"><a href="{{ route('blogs.show', $future_blog) }}" class="btn btn-lg btn-secondary">next &gt;</a></div>
+    @endif
+    </div>
     <div class="text-end"><a href="{{route('blogs.index')}}" class="btn btn-lg btn-primary col-auto text-right">back</a></div>
 </div>
 

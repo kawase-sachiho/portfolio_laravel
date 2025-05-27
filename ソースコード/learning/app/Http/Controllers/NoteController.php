@@ -34,12 +34,30 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         $categories = Category::where('user_id', Auth::id())->orderBy('category_name', 'asc')->get();
-        if (isset($request->category_id)) {
+        if(isset($request->category_id)&&isset($request->keyword)){
+            $select_category = Category::where('user_id', Auth::id())->where('id', $request->category_id)->first();
+            $keywords = $request->keyword;
+            //全角スペースを半角スペースに変換
+            $spaceConversion = mb_convert_kana($keywords, 's');
+            //スペースやカンマ区切りで検索ワードを配列に格納
+            $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
+            //キーワードが1つの場合
+            $query = Note::whereRaw("(title || content) LIKE ? ", '%' . $wordArraySearched[0] . '%')->where('category_id',$request->category_id);
+            if (count($wordArraySearched) > 1) {
+                //キーワードが2つ以上の場合
+                for ($i = 1; $i < count($wordArraySearched); $i++) {
+                    $query->whereRaw("(title || content) LIKE ? ", '%' . $wordArraySearched[$i] . '%')->where('category_id',$request->category_id);
+                }
+            }
+            $notes = $query->where('user_id', Auth::id())->orderBy('registration_date', 'desc')->paginate(10);
+            return view('notes.index', compact('notes', 'categories', 'keywords','select_category'));
+        }
+        elseif (isset($request->category_id)&&!isset($request->keyword)) {
             //カテゴリーで検索された場合
             $notes = Note::where('user_id', Auth::id())->where('category_id', $request->category_id)->orderBy('registration_date', 'desc')->paginate(10);
             $select_category = Category::where('user_id', Auth::id())->where('id', $request->category_id)->first();
             return view('notes.index', compact('notes', 'select_category', 'categories'));
-        } elseif (isset($request->keyword)) {
+        } elseif (!isset($request->category_id)&&isset($request->keyword)) {
             $keywords = $request->keyword;
             //全角スペースを半角スペースに変換
             $spaceConversion = mb_convert_kana($keywords, 's');
